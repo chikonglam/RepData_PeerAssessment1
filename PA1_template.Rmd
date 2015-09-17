@@ -9,6 +9,7 @@ output:
 ## Loading and preprocessing the data
 ```{r}
 steps <- read.csv("activity.csv")
+steps$date <- as.Date(steps$date)
 #steps$time <- strptime( sprintf("%04d", steps$interval), "%H%M" ) 
 ```
 
@@ -95,7 +96,10 @@ totalStepsMedianNoNA
   After imputing the dataset, both the mean and the median increase.  This is expected because the missing values were treated as 0 before, but are now replaced with its correspoinding 5-minute-interval average.  
 
 ## Are there differences in activity patterns between weekdays and weekends?
-1. Creating a new factor variable in the dataset indicating whether a given date is a weekday or weekend day
+1.  Creating a new factor variable in the dataset indicating whether a given date is a weekday or weekend day.
 ```{r}
-
+for (i in 1:length(steps$date)){
+    steps$wday[i] <- if( weekdays(steps$date[i]) == "Saturday" || weekdays(steps$date[i]) == "Sunday" ) "weekend" else "weekday"
+}
+steps$wday <- as.factor(steps$wday)
 ```
