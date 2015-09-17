@@ -9,6 +9,7 @@ output:
 ## Loading and preprocessing the data
 ```{r}
 steps <- read.csv("activity.csv")
+#steps$time <- strptime( sprintf("%04d", steps$interval), "%H%M" ) 
 ```
 
 
@@ -36,10 +37,24 @@ totalStepsMedian
 ```
 
 ## What is the average daily activity pattern?
+1.  A time series plot of the 5-minute interval and the average number of steps taken, averaged across all days 
+```{r}
+stepsByInt <- split(steps$steps, steps$interval)
+meanByInt <- sapply(stepsByInt, mean, USE.NAMES = TRUE, na.rm=TRUE)
+meantime <- as.numeric(names(meanByInt))
+plot(meantime, meanByInt, type="l", main="Average Daily Activity Pattern", xlab="time", ylab="average steps taken")
+```
 
+2.  Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+```{r}
+maxInd <- which.max(meanByInt)
+names(maxInd)
+```
 
 
 ## Imputing missing values
+
+
 
 
 
