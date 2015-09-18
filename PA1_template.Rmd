@@ -10,26 +10,21 @@ output:
 ```{r}
 steps <- read.csv("activity.csv")
 steps$date <- as.Date(steps$date)
-#steps$time <- strptime( sprintf("%04d", steps$interval), "%H%M" ) 
 ```
 
 
 ## What is mean total number of steps taken per day?
-1.  total number of steps taken per day
+1.  A histogram of the total number of steps taken each day
 ```{r}
 stepsByDate <- split(steps$steps, steps$date)
 sumByDate <- sapply(stepsByDate, sum, USE.NAMES = TRUE, na.rm=TRUE)
-sumByDate
 
-```
-
-2.  A histogram of the total number of steps taken each day
-```{r}
 library(ggplot2)
-qplot(sumByDate, bin = 2000, main="Total Number of Steps Taken Each Day", xlab="Total steps per Day")
+qplot(sumByDate, bin = 2000, main="Total Number of Steps Taken Each Day", xlab=
+          "Total steps per Day")
 ```
 
-3.  The mean and median of the total number of steps taken per day
+2.  The mean and median of the total number of steps taken per day
 ```{r}
 totalStepsMean <- mean(sumByDate)
 totalStepsMean
@@ -37,13 +32,15 @@ totalStepsMedian <- median(sumByDate)
 totalStepsMedian
 ```
 
+
 ## What is the average daily activity pattern?
 1.  A time series plot of the 5-minute interval and the average number of steps taken, averaged across all days 
 ```{r}
 stepsByInt <- split(steps$steps, steps$interval)
 meanByInt <- sapply(stepsByInt, mean, USE.NAMES = TRUE, na.rm=TRUE)
 meantime <- as.numeric(names(meanByInt))
-plot(meantime, meanByInt, type="l", main="Average Daily Activity Pattern", xlab="time", ylab="average steps taken")
+plot(meantime, meanByInt, type="l", main="Average Daily Activity Pattern", 
+     xlab="time", ylab="average steps taken")
 dev.off()
 ```
 
@@ -81,7 +78,8 @@ sumByDateNoNA <- sapply(stepsByDateNoNA, sum, USE.NAMES = TRUE)
 
 * A histogram of the total number of steps taken each day
 ```{r}
-qplot(sumByDateNoNA, bin = 2000, main="Total Number of Steps Taken Each Day (NA Imputed)", xlab="Total steps per Day")
+qplot(sumByDateNoNA, bin = 2000, 
+main="Total Number of Steps Taken Each Day (NA Imputed)", xlab="Total steps per Day")
 ```
 
 * the mean and median total number of steps taken per day
@@ -95,11 +93,13 @@ totalStepsMedianNoNA
 * comparing with the original data set:  
   After imputing the dataset, both the mean and the median increase.  This is expected because the missing values were treated as 0 before, but are now replaced with its correspoinding 5-minute-interval average.  
 
+
 ## Are there differences in activity patterns between weekdays and weekends?
 1.  Creating a new factor variable in the dataset indicating whether a given date is a weekday or weekend day.
 ```{r}
 for (i in 1:length(steps$date)){
-    steps$wday[i] <- if( weekdays(steps$date[i]) == "Saturday" || weekdays(steps$date[i]) == "Sunday" ) "weekend" else "weekday"
+    steps$wday[i] <- if( weekdays(steps$date[i]) == "Saturday" || 
+                         weekdays(steps$date[i]) == "Sunday" ) "weekend" else "weekday"
 }
 steps$wday <- as.factor(steps$wday)
 ```
@@ -109,5 +109,7 @@ steps$wday <- as.factor(steps$wday)
 library(dplyr)
 stepMeans <- steps %>% group_by(wday, interval) %>% summarise(steps=mean(steps, na.rm=TRUE))
 library(lattice)
-xyplot(steps ~ interval| wday, data = stepMeans,type = "l",xlab = "Interval", ylab = "Avg num of steps", main="Activity Patterns between Weekdays and Weekends", layout=c(1,2))
+xyplot(steps ~ interval| wday, data = stepMeans,type = "l",xlab = "Interval", 
+       ylab = "Avg num of steps", main=
+           "Activity Patterns between Weekdays and Weekends", layout=c(1,2))
 ```
