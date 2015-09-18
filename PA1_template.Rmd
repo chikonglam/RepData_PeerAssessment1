@@ -103,3 +103,11 @@ for (i in 1:length(steps$date)){
 }
 steps$wday <- as.factor(steps$wday)
 ```
+
+2.  Time series plots of the average number of steps taken between weekdays and weekends
+```{r}
+library(dplyr)
+stepMeans <- steps %>% group_by(wday, interval) %>% summarise(steps=mean(steps, na.rm=TRUE))
+library(lattice)
+xyplot(steps ~ interval| wday, data = stepMeans,type = "l",xlab = "Interval", ylab = "Avg num of steps", main="Activity Patterns between Weekdays and Weekends", layout=c(1,2))
+```
