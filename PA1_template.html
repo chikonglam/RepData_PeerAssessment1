@@ -209,28 +209,19 @@ steps$date &lt;- as.Date(steps$date)
 
 <h2>What is mean total number of steps taken per day?</h2>
 
-<ol>
-<li>A histogram of the total number of steps taken each day</li>
-</ol>
+<h3>A histogram of the total number of steps taken each day</h3>
 
 <pre><code class="r">stepsByDate &lt;- split(steps$steps, steps$date)
 sumByDate &lt;- sapply(stepsByDate, sum, USE.NAMES = TRUE, na.rm=TRUE)
 
 library(ggplot2)
-</code></pre>
-
-<pre><code>## Need help? Try the ggplot2 mailing list: http://groups.google.com/group/ggplot2.
-</code></pre>
-
-<pre><code class="r">qplot(sumByDate, bin = 2000, main=&quot;Total Number of Steps Taken Each Day&quot;, xlab=
+qplot(sumByDate, bin = 2000, main=&quot;Total Number of Steps Taken Each Day&quot;, xlab=
           &quot;Total steps per Day&quot;)
 </code></pre>
 
 <p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-2"/> </p>
 
-<ol>
-<li>The mean and median of the total number of steps taken per day</li>
-</ol>
+<h3>The mean and median of the total number of steps taken per day</h3>
 
 <pre><code class="r">totalStepsMean &lt;- mean(sumByDate)
 totalStepsMean
@@ -248,9 +239,7 @@ totalStepsMedian
 
 <h2>What is the average daily activity pattern?</h2>
 
-<ol>
-<li>A time series plot of the 5-minute interval and the average number of steps taken, averaged across all days </li>
-</ol>
+<h3>A time series plot of the 5-minute interval and the average number of steps taken, averaged across all days</h3>
 
 <pre><code class="r">stepsByInt &lt;- split(steps$steps, steps$interval)
 meanByInt &lt;- sapply(stepsByInt, mean, USE.NAMES = TRUE, na.rm=TRUE)
@@ -268,9 +257,7 @@ plot(meantime, meanByInt, type=&quot;l&quot;, main=&quot;Average Daily Activity 
 ##           1
 </code></pre>
 
-<ol>
-<li>Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?</li>
-</ol>
+<h3>Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?</h3>
 
 <pre><code class="r">maxInd &lt;- which.max(meanByInt)
 names(maxInd)
@@ -281,9 +268,7 @@ names(maxInd)
 
 <h2>Imputing missing values</h2>
 
-<ol>
-<li>The total number of missing values in the dataset</li>
-</ol>
+<h3>The total number of missing values in the dataset</h3>
 
 <pre><code class="r">sum(is.na(steps$steps))
 </code></pre>
@@ -291,9 +276,7 @@ names(maxInd)
 <pre><code>## [1] 2304
 </code></pre>
 
-<ol>
-<li>A new dataset with all of the missing values filled in using the mean for that 5-minute interval.</li>
-</ol>
+<h3>A new dataset with all of the missing values filled in using the mean for that 5-minute interval.</h3>
 
 <pre><code class="r">stepsNaInd &lt;- which(is.na(steps$steps))
 stepsNoNA &lt;- steps
@@ -304,17 +287,13 @@ for (i in stepsNaInd){
 }
 </code></pre>
 
-<ol>
-<li>New sum for the imputed dataset </li>
-</ol>
+<h3>New sum for the imputed dataset</h3>
 
 <pre><code class="r">stepsByDateNoNA &lt;- split(stepsNoNA$steps, stepsNoNA$date)
 sumByDateNoNA &lt;- sapply(stepsByDateNoNA, sum, USE.NAMES = TRUE)
 </code></pre>
 
-<ol>
-<li>Summary of the Imputed data set</li>
-</ol>
+<h3>Summary of the Imputed data set</h3>
 
 <ul>
 <li>A histogram of the total number of steps taken each day</li>
@@ -351,9 +330,7 @@ After imputing the dataset, both the mean and the median increase.  This is expe
 
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>
 
-<ol>
-<li>Creating a new factor variable in the dataset indicating whether a given date is a weekday or weekend day.</li>
-</ol>
+<h3>Creating a new factor variable in the dataset indicating whether a given date is a weekday or weekend day.</h3>
 
 <pre><code class="r">for (i in 1:length(steps$date)){
     steps$wday[i] &lt;- if( weekdays(steps$date[i]) == &quot;Saturday&quot; || 
@@ -362,9 +339,7 @@ After imputing the dataset, both the mean and the median increase.  This is expe
 steps$wday &lt;- as.factor(steps$wday)
 </code></pre>
 
-<ol>
-<li>Time series plots of the average number of steps taken between weekdays and weekends</li>
-</ol>
+<h3>Time series plots of the average number of steps taken between weekdays and weekends</h3>
 
 <pre><code class="r">library(dplyr)
 </code></pre>

@@ -15,27 +15,20 @@ steps$date <- as.Date(steps$date)
 
 
 ## What is mean total number of steps taken per day?
-1. A histogram of the total number of steps taken each day
+### A histogram of the total number of steps taken each day
 
 ```r
 stepsByDate <- split(steps$steps, steps$date)
 sumByDate <- sapply(stepsByDate, sum, USE.NAMES = TRUE, na.rm=TRUE)
 
 library(ggplot2)
-```
-
-```
-## Need help? Try the ggplot2 mailing list: http://groups.google.com/group/ggplot2.
-```
-
-```r
 qplot(sumByDate, bin = 2000, main="Total Number of Steps Taken Each Day", xlab=
           "Total steps per Day")
 ```
 
 ![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
 
-2. The mean and median of the total number of steps taken per day
+### The mean and median of the total number of steps taken per day
 
 ```r
 totalStepsMean <- mean(sumByDate)
@@ -57,7 +50,7 @@ totalStepsMedian
 
 
 ## What is the average daily activity pattern?
-1. A time series plot of the 5-minute interval and the average number of steps taken, averaged across all days 
+### A time series plot of the 5-minute interval and the average number of steps taken, averaged across all days 
 
 ```r
 stepsByInt <- split(steps$steps, steps$interval)
@@ -78,7 +71,7 @@ dev.off()
 ##           1
 ```
 
-2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+### Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 ```r
 maxInd <- which.max(meanByInt)
@@ -91,7 +84,7 @@ names(maxInd)
 
 
 ## Imputing missing values
-1. The total number of missing values in the dataset
+### The total number of missing values in the dataset
 
 ```r
 sum(is.na(steps$steps))
@@ -101,7 +94,7 @@ sum(is.na(steps$steps))
 ## [1] 2304
 ```
 
-2. A new dataset with all of the missing values filled in using the mean for that 5-minute interval.
+### A new dataset with all of the missing values filled in using the mean for that 5-minute interval.
 
 ```r
 stepsNaInd <- which(is.na(steps$steps))
@@ -113,14 +106,14 @@ for (i in stepsNaInd){
 }
 ```
 
-3. New sum for the imputed dataset 
+### New sum for the imputed dataset 
 
 ```r
 stepsByDateNoNA <- split(stepsNoNA$steps, stepsNoNA$date)
 sumByDateNoNA <- sapply(stepsByDateNoNA, sum, USE.NAMES = TRUE)
 ```
 
-4. Summary of the Imputed data set
+### Summary of the Imputed data set
 
 * A histogram of the total number of steps taken each day
 
@@ -156,7 +149,7 @@ totalStepsMedianNoNA
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
-1. Creating a new factor variable in the dataset indicating whether a given date is a weekday or weekend day.
+### Creating a new factor variable in the dataset indicating whether a given date is a weekday or weekend day.
 
 ```r
 for (i in 1:length(steps$date)){
@@ -166,7 +159,7 @@ for (i in 1:length(steps$date)){
 steps$wday <- as.factor(steps$wday)
 ```
 
-2. Time series plots of the average number of steps taken between weekdays and weekends
+### Time series plots of the average number of steps taken between weekdays and weekends
 
 ```r
 library(dplyr)
