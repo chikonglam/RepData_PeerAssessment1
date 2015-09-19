@@ -1,4 +1,9 @@
-# Reproducible Research: Peer Assessment 1
+---
+title: "Reproducible Research: Peer Assessment 1"
+output: 
+  html_document:
+    keep_md: true
+---
 
 
 ## Loading and preprocessing the data
@@ -10,20 +15,27 @@ steps$date <- as.Date(steps$date)
 
 
 ## What is mean total number of steps taken per day?
-1.  A histogram of the total number of steps taken each day
+1. A histogram of the total number of steps taken each day
 
 ```r
 stepsByDate <- split(steps$steps, steps$date)
 sumByDate <- sapply(stepsByDate, sum, USE.NAMES = TRUE, na.rm=TRUE)
 
 library(ggplot2)
+```
+
+```
+## Need help? Try the ggplot2 mailing list: http://groups.google.com/group/ggplot2.
+```
+
+```r
 qplot(sumByDate, bin = 2000, main="Total Number of Steps Taken Each Day", xlab=
           "Total steps per Day")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
 
-2.  The mean and median of the total number of steps taken per day
+2. The mean and median of the total number of steps taken per day
 
 ```r
 totalStepsMean <- mean(sumByDate)
@@ -45,7 +57,7 @@ totalStepsMedian
 
 
 ## What is the average daily activity pattern?
-1.  A time series plot of the 5-minute interval and the average number of steps taken, averaged across all days 
+1. A time series plot of the 5-minute interval and the average number of steps taken, averaged across all days 
 
 ```r
 stepsByInt <- split(steps$steps, steps$interval)
@@ -55,7 +67,7 @@ plot(meantime, meanByInt, type="l", main="Average Daily Activity Pattern",
      xlab="time", ylab="average steps taken")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
 
 ```r
 dev.off()
@@ -66,7 +78,7 @@ dev.off()
 ##           1
 ```
 
-2.  Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 ```r
 maxInd <- which.max(meanByInt)
@@ -79,7 +91,7 @@ names(maxInd)
 
 
 ## Imputing missing values
-1.  The total number of missing values in the dataset
+1. The total number of missing values in the dataset
 
 ```r
 sum(is.na(steps$steps))
@@ -89,7 +101,7 @@ sum(is.na(steps$steps))
 ## [1] 2304
 ```
 
-2.   A new dataset with all of the missing values filled in using the mean for that 5-minute interval.
+2. A new dataset with all of the missing values filled in using the mean for that 5-minute interval.
 
 ```r
 stepsNaInd <- which(is.na(steps$steps))
@@ -101,14 +113,14 @@ for (i in stepsNaInd){
 }
 ```
 
-3.  New sum for the imputed dataset 
+3. New sum for the imputed dataset 
 
 ```r
 stepsByDateNoNA <- split(stepsNoNA$steps, stepsNoNA$date)
 sumByDateNoNA <- sapply(stepsByDateNoNA, sum, USE.NAMES = TRUE)
 ```
 
-4.  Summary of the Imputed data set
+4. Summary of the Imputed data set
 
 * A histogram of the total number of steps taken each day
 
@@ -117,7 +129,7 @@ qplot(sumByDateNoNA, bin = 2000,
 main="Total Number of Steps Taken Each Day (NA Imputed)", xlab="Total steps per Day")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-9-1.png) 
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png) 
 
 * the mean and median total number of steps taken per day
 
@@ -144,7 +156,7 @@ totalStepsMedianNoNA
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
-1.  Creating a new factor variable in the dataset indicating whether a given date is a weekday or weekend day.
+1. Creating a new factor variable in the dataset indicating whether a given date is a weekday or weekend day.
 
 ```r
 for (i in 1:length(steps$date)){
@@ -154,7 +166,7 @@ for (i in 1:length(steps$date)){
 steps$wday <- as.factor(steps$wday)
 ```
 
-2.  Time series plots of the average number of steps taken between weekdays and weekends
+2. Time series plots of the average number of steps taken between weekdays and weekends
 
 ```r
 library(dplyr)
@@ -185,4 +197,4 @@ xyplot(steps ~ interval| wday, data = stepMeans,type = "l",xlab = "Interval",
            "Activity Patterns between Weekdays and Weekends", layout=c(1,2))
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-12-1.png) 
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12-1.png) 
